@@ -3,39 +3,27 @@ using TMPro;
 public class DeliveryManager : MonoBehaviour
 {
     public static DeliveryManager Instance;
-    [Header("â◊ï®")]
-    public GameObject[] packages;
     [Header("îzíBêÊ")]
-    public GameObject[] deliveryPoints;
+    public DeliveryPoint deliveryPoint;
     [Header("UI")]
     public TMP_Text scoreText;
     public TMP_Text currentText;
     int currentPackageIndex = -1;
     int score = 0;
+    public Package carriedPackage;
+
     void Awake()
     {
         Instance = this;
     }
     void Start()
     {
-        SpawnNext();
+        deliveryPoint.ChangeColor();
         UpdateUI();
-    }
-    void SpawnNext()
-    {
-        foreach (GameObject p in packages)
-            p.SetActive(false);
-        foreach (GameObject d in deliveryPoints)
-            d.SetActive(false);
-        int index = Random.Range(0, packages.Length);
-        packages[index].SetActive(true);
-        deliveryPoints[index].SetActive(true);
-        currentPackageIndex = -1;
     }
     public void PickPackage(int index)
     {
         currentPackageIndex = index;
-        packages[index].SetActive(false);
         UpdateUI();
     }
     public void Deliver(int index)
@@ -45,17 +33,27 @@ public class DeliveryManager : MonoBehaviour
         if (currentPackageIndex == index)
         {
             score += 100;
-            scoreText.text = "Score : " + score;
-            SpawnNext();
+            deliveryPoint.ChangeColor();
         }
         currentPackageIndex = -1;
         UpdateUI();
     }
     void UpdateUI()
     {
+        scoreText.text = "Score : " + score;
         if (currentPackageIndex == -1)
             currentText.text = "éùÇøï® : Ç»Çµ";
         else
-            currentText.text = "éùÇøï® : " + currentPackageIndex;
+            currentText.text = "éùÇøï® : " + ColorName(currentPackageIndex);
+    }
+    string ColorName(int index)
+    {
+        switch (index)
+        {
+            case 0: return "ê‘";
+            case 1: return "ê¬";
+            case 2: return "óŒ";
+        }
+        return "Ç»Çµ";
     }
 }
