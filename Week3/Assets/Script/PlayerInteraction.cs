@@ -1,7 +1,15 @@
 using UnityEngine;
+using TMPro;
 public class PlayerInteraction : MonoBehaviour
 {
+    public GameObject pickupHint;
+
     Package nearbyPackage;
+
+    void Start()
+    {
+        pickupHint.SetActive(false);
+    }
     void Update()
     {
         // éùÇ¬ÅEíuÇ≠
@@ -31,7 +39,11 @@ public class PlayerInteraction : MonoBehaviour
     void CarryPackage(Package package)
     {
         DeliveryManager.Instance.carriedPackage = package;
+
         package.isCarried = true;
+
+        pickupHint.SetActive(false);
+
         DeliveryManager.Instance.PickPackage(
             package.colorIndex
         );
@@ -47,9 +59,12 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Package package = other.GetComponent<Package>();
+
         if (package != null)
         {
             nearbyPackage = package;
+
+            pickupHint.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)

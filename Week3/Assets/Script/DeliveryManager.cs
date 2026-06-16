@@ -11,7 +11,7 @@ public class DeliveryManager : MonoBehaviour
     int currentPackageIndex = -1;
     int score = 0;
     public Package carriedPackage;
-
+    public static int finalScore;
     void Awake()
     {
         Instance = this;
@@ -33,6 +33,7 @@ public class DeliveryManager : MonoBehaviour
         if (currentPackageIndex == index)
         {
             score += 100;
+            finalScore = score;
             deliveryPoint.ChangeColor();
         }
         currentPackageIndex = -1;
@@ -55,5 +56,9 @@ public class DeliveryManager : MonoBehaviour
             case 2: return "—Î";
         }
         return "‚È‚µ";
+    }
+    public int GetScore()
+    {
+        return score;
     }
 }
