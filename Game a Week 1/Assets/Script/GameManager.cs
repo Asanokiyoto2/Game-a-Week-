@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 
     int score = 0;
 
-    Vector3 checkpointPos;
 
     bool gameEnd = false;
 
@@ -26,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        checkpointPos = GameObject.FindGameObjectWithTag("Player").transform.position;
         resultPanel.SetActive(false);
     }
 
@@ -51,15 +49,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score : " + score;
     }
 
-    public void SetCheckpoint(Vector3 pos)
-    {
-        checkpointPos = pos;
-    }
-
-    public void Respawn(GameObject player)
-    {
-        player.transform.position = checkpointPos;
-    }
+    
 
     public void GameClear()
     {
