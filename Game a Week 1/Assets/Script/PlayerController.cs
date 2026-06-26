@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     public float moveForce = 10f;
+    public float deadLine = -10f;
 
     Rigidbody rb;
 
@@ -19,5 +21,13 @@ public class PlayerController : MonoBehaviour
         Vector3 move = new Vector3(h, 0, v);
 
         rb.AddForce(move * moveForce);
+    }
+
+    void Update()
+    {
+        if (transform.position.y < deadLine)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
     }
 }
