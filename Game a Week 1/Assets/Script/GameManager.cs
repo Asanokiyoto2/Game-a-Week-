@@ -15,17 +15,27 @@ public class GameManager : MonoBehaviour
 
     int score = 0;
 
+    int totalCoins = 0;   // Å©í«â¡
+    int getCoins = 0;     // Å©í«â¡
 
     bool gameEnd = false;
 
     void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
     void Start()
     {
+        Time.timeScale = 1f;
         resultPanel.SetActive(false);
+
+        totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
     }
 
     void Update()
@@ -33,8 +43,7 @@ public class GameManager : MonoBehaviour
         if (gameEnd) return;
 
         timeLimit -= Time.deltaTime;
-
-        timerText.text = "Time : " + Mathf.Ceil(timeLimit);
+        timerText.text = $"Time : {Mathf.Ceil(timeLimit)}";
 
         if (timeLimit <= 0)
         {
@@ -44,34 +53,43 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        score += amount;
+        if (gameEnd) return;
 
-        scoreText.text = "Score : " + score;
+        score += amount;
+        getCoins += amount;
+
+        scoreText.text = $"Score : {score}";
+
+        CheckClear(); // Å©Ç±Ç±èdóv
     }
 
-    
+    void CheckClear()
+    {
+        if (getCoins >= totalCoins && !gameEnd)
+        {
+            Invoke("GameClear", 0.5f); // è≠Çµä‘Çì¸ÇÍÇÈ
+        }
+    }
 
     public void GameClear()
     {
-        gameEnd = true;
+        if (gameEnd) return;
 
+        gameEnd = true;
         resultPanel.SetActive(true);
 
-        resultText.text =
-            "CLEAR\nScore : " + score;
-
-        Time.timeScale = 0;
+        resultText.text = $"CLEAR\nScore : {score}";
+        Time.timeScale = 0f;
     }
 
     void GameOver()
     {
-        gameEnd = true;
+        if (gameEnd) return;
 
+        gameEnd = true;
         resultPanel.SetActive(true);
 
-        resultText.text =
-            "GAME OVER\nScore : " + score;
-
-        Time.timeScale = 0;
+        resultText.text = $"GAME OVER\nScore : {score}";
+        Time.timeScale = 0f;
     }
 }

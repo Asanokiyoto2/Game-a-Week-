@@ -12,6 +12,7 @@ public class SceneButton : MonoBehaviour
     // ƒŠƒgƒ‰ƒC
     public void Retry()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainGame");
     }
 

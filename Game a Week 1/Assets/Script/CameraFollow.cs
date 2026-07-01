@@ -3,6 +3,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform player;
+    public float smooth = 5f;
 
     Vector3 offset;
 
@@ -13,6 +14,12 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = player.position + offset;
+        Vector3 targetPos = player.position + offset;
+
+        transform.position = Vector3.Lerp(
+            transform.position,
+            targetPos,
+            smooth * Time.deltaTime
+        );
     }
 }
